@@ -1,9 +1,9 @@
-const Post = require('../models/post.model');
+const Post = require("../models/post.model");
 
 const createPost = async (req, res) => {
   try {
     await Post.create(req.body);
-    res.send({ success: true, message: 'Post Created' });
+    res.send({ success: true, message: "Post Created" });
   } catch (error) {
     res.end({ error: true, message: error.message });
   }
