@@ -1,11 +1,16 @@
 const Post = require("../models/post.model");
+const postValidations = require("../validations/post.validation");
 
 const createPost = async (req, res) => {
   try {
-    await Post.create(req.body);
+    const value = await postValidations.createPostSchema.body.validateAsync(
+      req.body,
+    );
+    await Post.create(value);
     res.send({ success: true, message: "Post Created" });
   } catch (error) {
-    res.end({ error: true, message: error.message });
+    console.log(error);
+    res.send({ error: true, message: error.details });
   }
 };
 
@@ -14,7 +19,7 @@ const getPosts = async (req, res) => {
     const data = await Post.find({});
     res.send({ data });
   } catch (error) {
-    res.end({ error: true, message: error.message });
+    res.send({ error: true, message: error.details });
   }
 };
 
